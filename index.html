@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Tableau des allures</title>
+
+    <link href="css/style.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="data/icon.png" />
+</head>
+
+<body>
+
+    <form name="table_params">
+        <label for="type">Type</label>
+        <select name="Type" id="type" onchange="updateDistanceSelection()">
+            <option value="entrainement" selected="selected">Entrainement</option>
+            <option value="course">Course</option>
+        </select>
+        <span id="distances_selection">
+            <label for="distances">Distances</label>
+            <select name="Distances" id="distances">
+                <option value="sprint">Sprint</option>
+                <option value="demi_fond">Demi fond</option>
+                <option value="fond" selected="selected">Fond</option>
+            </select>
+        </span>
+        <br/>
+        <label for="allures">Allures</label>
+        <select name="Allures" id="allures" onchange="updateMinMaxIncSelection()">
+            <option value="minkm" selected="selected">min / km</option>
+            <option value="kmh">km / h</option>
+        </select>
+        <br/>
+        <label for="allure_min">Min.</label>
+        <select name="a_min" id="allure_min">
+            <option value="600">10'00 / km</option>
+            <option value="540">9'00 / km</option>
+            <option value="480">8'00 / km</option>
+            <option value="420">7'00 / km</option>
+            <option value="360" selected="selected">6'00 / km</option>
+            <option value="300">5'00 / km</option>
+            <option value="240">4'00 / km</option>
+            <option value="180">3'00 / km</option>
+            <option value="120">2'00 / km</option>
+            <option value="90">1'30 / km</option>
+        </select>
+        <select name="v_min" id="vitesse_min">
+            <option value="6">6 km / h</option>
+            <option value="10" selected="selected">10 km / h</option>
+            <option value="12">12 km / h</option>
+            <option value="14">14 km / h</option>
+            <option value="16">16 km / h</option>
+            <option value="20">20 km / h</option>
+            <option value="24">24 km / h</option>
+            <option value="30">30 km / h</option>
+            <option value="36">36 km / h</option>
+            <option value="40">40 km / h</option>
+        </select>
+        <br />
+        <label for="allure_max">Max.</label>
+        <select name="max" id="allure_max">
+            <option value="600">10'00 / km</option>
+            <option value="540">9'00 / km</option>
+            <option value="480">8'00 / km</option>
+            <option value="420">7'00 / km</option>
+            <option value="360">6'00 / km</option>
+            <option value="300">5'00 / km</option>
+            <option value="240">4'00 / km</option>
+            <option value="180">3'00 / km</option>
+            <option value="120" selected="selected">2'00 / km</option>
+            <option value="90">1'30 / km</option>
+        </select>
+        <select name="v_max" id="vitesse_max">
+            <option value="6">6 km / h</option>
+            <option value="10">10 km / h</option>
+            <option value="12">12 km / h</option>
+            <option value="14">14 km / h</option>
+            <option value="16">16 km / h</option>
+            <option value="20">20 km / h</option>
+            <option value="24">24 km / h</option>
+            <option value="30" selected="selected">30 km / h</option>
+            <option value="36">36 km / h</option>
+            <option value="40">40 km / h</option>
+        </select>
+        <br />
+        <label for="allure_increment">Incrément</label>
+        <select name="a_incr" id="allure_increment">
+            <option value="1">1" / km</option>
+            <option value="2">2" / km</option>
+            <option value="5" selected="selected">5" / km</option>
+            <option value="10">10" / km</option>
+            <option value="15">15" / km</option>
+            <option value="20">20" / km</option>
+            <option value="30">30" / km</option>
+        </select>
+        <select name="v_incr" id="vitesse_increment">
+            <option value="0.1">0,1 km / h</option>
+            <option value="0.2">0,2 km / h</option>
+            <option value="0.25" selected="selected">0,25 km / h</option>
+            <option value="0.5">0,5 km / h</option>
+            <option value="1">1 km / h</option>
+        </select>
+        <br />
+        <button type="button" onclick="generateTable()">Générer</button>
+    </form>
+
+    <div id="table">
+    </div>
+
+    <script src="js/functions.js"></script>
+
+</body>
+</html>
