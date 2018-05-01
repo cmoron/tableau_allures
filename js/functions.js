@@ -148,7 +148,8 @@ function generateLine(speedKmH, colsValues) {
             timeStr = fullSeconds < 60 ? fullSeconds + "\"" + centsZeroPadding :
                 minutes + "'" + secondsZeroPadding + "\"" + centsZeroPadding;
         } else {
-            timeStr = fullSeconds > 3600 ? hours + "h" + minutesZeroPadding + "'" + secondsZeroPadding + "\"" :
+
+            timeStr = roundSeconds >= 3600 ? hours + "h" + minutesZeroPadding + "'" + secondsZeroPadding + "\"" :
                 minutes + "'" + secondsZeroPadding + "\"";
         }
         tableLine += "<td>" + timeStr + "</td>";
