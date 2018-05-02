@@ -7,42 +7,20 @@ const MIN_KM_SELECTOR_SPEED = "minkm";
 // Some constants : end
 
 // Distances : begin
-var distances_sprint;
-var distances_demi_fond;
-var distances_fond;
-var all_distances;
-var meters_sprint;
-var meters_demi_fond;
-var meters_fond;
+var distances_sprint = ["50","60","100","150","200","300","400","500","600"];
+var distances_demi_fond = ["800","1k","15","Mile","2k","3k"];
+var distances_fond = ["5k","10k","20k","S.","25k","30k","M."];
+var all_distances = distances_sprint.concat(distances_demi_fond).concat(distances_fond);
+var meters_sprint = [50,60,100,150,200,300,400,500,600];
+var meters_demi_fond = [800,1000,1500,1609,2000,3000];
+var meters_fond = [5000,10000,20000,21097,25000,30000,42195];
 // Distances : end
 
 document.addEventListener("DOMContentLoaded", function() {
-    loadData();
     updateDistanceSelection();
     updateMinMaxIncSelection();
+    generateTable();
 }, false);
-
-// Load json data
-function loadData() {
-    var dataURL = "data/data.json";
-    var request = new XMLHttpRequest();
-    request.open("GET", dataURL);
-    request.responseType = "json";
-    request.send();
-
-    request.onload = function() {
-        var data = request.response;
-        distances_sprint = data.distances_sprint;
-        distances_demi_fond = data.distances_demi_fond;
-        distances_fond = data.distances_fond;
-        all_distances = distances_sprint.concat(distances_demi_fond).concat(distances_fond);
-        meters_sprint = data.meters_sprint;
-        meters_demi_fond = data.meters_demi_fond;
-        meters_fond = data.meters_fond;
-        generateTable();
-    };
-}
-
 
 function generateTable() {
     var tableHtml = document.getElementById("table");
