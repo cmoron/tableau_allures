@@ -116,15 +116,17 @@ function generateLine(speedKmH, colsValues) {
         var hours = secondsToHour(roundSeconds);
         var minutes = secondsToMinutes(roundSeconds, hours);
         var seconds = roundSeconds - (hours * 3600) - (minutes * 60);
+        var flooredSeconds = fullSeconds - (hours * 3600) - (minutes * 60);
 
         var timeStr = "";
         var centsZeroPadding = addZeroPadding(Math.round(cents * 100));
         var secondsZeroPadding = addZeroPadding(seconds);
+        var flooredSecondsZeroPadding = addZeroPadding(flooredSeconds);
         var minutesZeroPadding = addZeroPadding(minutes);
 
         if (distance < 800) {
             timeStr = fullSeconds < 60 ? fullSeconds + "\"" + centsZeroPadding :
-                minutes + "'" + secondsZeroPadding + "\"" + centsZeroPadding;
+                minutes + "'" + flooredSecondsZeroPadding + "\"" + centsZeroPadding;
         } else {
 
             timeStr = roundSeconds >= 3600 ? hours + "h" + minutesZeroPadding + "'" + secondsZeroPadding + "\"" :
