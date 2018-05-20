@@ -109,6 +109,7 @@ function generateLine(speedKmH, colsValues) {
     for (var distanceIndex = 0; distanceIndex < colsValues.length; distanceIndex++) {
         var distance = colsValues[distanceIndex];
         var timeSeconds = distance / (speedKmH * 1000 / 3600);
+        timeSeconds = timeSeconds.toPrecision(4);
         var fullSeconds = Math.floor(timeSeconds);
         var roundSeconds = Math.round(timeSeconds);
 
