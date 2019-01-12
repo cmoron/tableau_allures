@@ -114,10 +114,12 @@ function generateLine(speedKmH, colsValues) {
         var roundSeconds = Math.round(timeSeconds);
 
         var cents = timeSeconds - fullSeconds;
-        var hours = secondsToHour(roundSeconds);
-        var minutes = secondsToMinutes(roundSeconds, hours);
-        var seconds = roundSeconds - (hours * 3600) - (minutes * 60);
-        var flooredSeconds = fullSeconds - (hours * 3600) - (minutes * 60);
+        var usedSeconds = (cents >= 0.5 && distance > 800) ? roundSeconds : fullSeconds;
+
+        var hours = secondsToHour(usedSeconds);
+        var minutes = secondsToMinutes(usedSeconds, hours);
+        var seconds = usedSeconds - (hours * 3600) - (minutes * 60);
+        var flooredSeconds = usedSeconds - (hours * 3600) - (minutes * 60);
 
         var timeStr = "";
         var centsZeroPadding = addZeroPadding(Math.round(cents * 100));
@@ -125,14 +127,22 @@ function generateLine(speedKmH, colsValues) {
         var flooredSecondsZeroPadding = addZeroPadding(flooredSeconds);
         var minutesZeroPadding = addZeroPadding(minutes);
 
+
         if (distance < 800) {
-            timeStr = fullSeconds < 60 ? fullSeconds + "\"" + centsZeroPadding :
+            timeStr = usedSeconds < 60 ? usedSeconds + "\"" + centsZeroPadding :
                 minutes + "'" + flooredSecondsZeroPadding + "\"" + centsZeroPadding;
         } else {
-
-            timeStr = roundSeconds >= 3600 ? hours + "h" + minutesZeroPadding + "'" + secondsZeroPadding + "\"" :
+            timeStr = usedSeconds >= 3600 ? hours + "h" + minutesZeroPadding + "'" + secondsZeroPadding + "\"" :
                 minutes + "'" + secondsZeroPadding + "\"";
         }
+
+        //if (distance < 800) {
+            //timeStr = fullSeconds < 60 ? fullSeconds + "\"" + centsZeroPadding :
+                //minutes + "'" + flooredSecondsZeroPadding + "\"" + centsZeroPadding;
+        //} else {
+            //timeStr = seconds >= 3600 ? hours + "h" + minutesZeroPadding + "'" + secondsZeroPadding + "\"" :
+                //minutes + "'" + secondsZeroPadding + "\"";
+        //}
         tableLine += "<td>" + timeStr + "</td>";
     }
     return tableLine;
@@ -147,7 +157,7 @@ function generateTableLinesForMinKm(minValue, maxValue, incValue, colsValues) {
         var strSpeed = minutes + "'" + addZeroPadding(seconds) + "\"";
         var speedKmH = secondPerKmToKmHString(value);
 
-        tableLines += "<tr><td class=\"colHead\">" + strSpeed +"</td><td class=\"colHead\">" + speedKmH + "</td>";
+        tableLines += "<tr><td class=\"colHead\">" + strSpeed +"</td><td class=\"colHead\">" + speedKmH.toFixed(2) + "</td>";
         tableLines += generateLine(speedKmH, colsValues);
         tableLines += "</tr>";
     }
@@ -204,37 +214,38 @@ function updateMinMaxIncSelection() {
 }
 
 /*
-** Converts seconds per km in km/h : format "XX,XX" km/h
-*/
+ ** Converts seconds per km in km/h : format "XX,XX" km/h
+ */
 function secondPerKmToKmHString(seconds) {
-    return Number(3600 / seconds).toFixed(2);
+    return Number(3600 / seconds);
+    //return Number(3600 / seconds).toFixed(2);
 }
 
 /*
-** Converts km/h in seconds per km.
-*/
+ ** Converts km/h in seconds per km.
+ */
 function kmHtoSecondsPerKm(speed) {
     return 1 / speed * 3600;
 }
 
 /*
-** Returns number of hours for <parameter> seconds.
-*/
+ ** Returns number of hours for <parameter> seconds.
+ */
 function secondsToHour(seconds) {
     return Math.floor(seconds / 3600);
 }
 
 /*
-** Returns number of minutes (minus hours) for <parameters> hour and seconds.
-*/
+ ** Returns number of minutes (minus hours) for <parameters> hour and seconds.
+ */
 function secondsToMinutes(seconds, hours) {
     return Math.floor((seconds - (hours * 3600)) / 60);
 }
 
 /*
-** Take number X parameter.
-** Returns 0X string.
-*/
+ ** Take number X parameter.
+ ** Returns 0X string.
+ */
 function addZeroPadding(number) {
     return ("0" + number).slice(-2);
 }
